@@ -11,6 +11,12 @@
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn build",
+      "pre-commit": "yarn lint"
+    }
+  },
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "next": "14.2.15",
