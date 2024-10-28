@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Running lint before commit..."
+yarn lint
+
+# Kiểm tra nếu lệnh lint thất bại
+if [ $? -ne 0 ]; then
+  echo "Lint failed, aborting commit"
+  exit 1
+fi
