@@ -1,4 +1,5 @@
 import { Toaster } from 'sonner';
+import AuthProvider from '@/components/providers/AuthProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           }
         }}
       />
-      {children}
+      <AuthProvider>
+        {children}
+      </AuthProvider>
     </>
   );
 }
