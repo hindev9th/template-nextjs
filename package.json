@@ -19,13 +19,18 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.473.0",
     "next": "14.2.15",
     "next-auth": "^4.24.11",
     "prettier": "^3.3.3",
     "react": "^18",
     "react-dom": "^18",
     "sass": "^1.80.3",
-    "sonner": "^1.5.0"
+    "sonner": "^1.5.0",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",
