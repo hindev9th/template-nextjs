@@ -1,7 +1,6 @@
 'use client'
 import Link3, { LinkProps } from 'next/link';
 import { notifyNoInterNet } from '@/lib/utils';
-import React from 'react';
 
 interface Props extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">, LinkProps {
   disabled?: boolean;
