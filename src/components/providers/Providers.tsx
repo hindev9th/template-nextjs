@@ -1,5 +1,6 @@
 import { Toaster } from 'sonner';
 import AuthProvider from '@/components/providers/AuthProvider';
+import QueryClientProvider from '@/components/providers/query-client-provider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -18,7 +19,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }}
       />
       <AuthProvider>
-        {children}
+        <QueryClientProvider>
+          {children}
+        </QueryClientProvider>
       </AuthProvider>
     </>
   );

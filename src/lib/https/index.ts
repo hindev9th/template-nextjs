@@ -1,11 +1,11 @@
 import { Method } from '@/types/request';
-import { Response } from '@/types/response';
+import { ApiResponse } from '@/types/response';
 
 const http = async <T>(
   url: string,
   method: Method = Method.GET,
   options?: RequestInit
-): Promise<Response<T>> => {
+): Promise<ApiResponse<T>> => {
   const requestOptions: RequestInit = {
     method,
     ...options,
@@ -28,7 +28,7 @@ const http = async <T>(
       data: null,
       message: 'Error while fetching request',
       statusCode: 500,
-    } as Response<T>;
+    } as ApiResponse<T>;
   }
 };
 
