@@ -23,7 +23,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.473.0",
-    "next": "14.2.15",
+    "next": "14.2.35",
     "next-auth": "^4.24.11",
     "prettier": "^3.3.3",
     "react": "^18",
