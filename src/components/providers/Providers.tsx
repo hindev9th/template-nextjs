@@ -1,25 +1,13 @@
-import { Toaster } from 'sonner';
-import AuthProvider from '@/components/providers/AuthProvider';
+'use client'
+import { SessionProvider } from 'next-auth/react';
+import StoreProvider from '@/components/providers/StoreProvider';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({children}: {children: React.ReactNode}) {
   return (
-    <>
-      <Toaster
-        richColors={true}
-        duration={3000}
-        closeButton={true}
-        position={'top-right'}
-        toastOptions={{
-          classNames: {
-            content: "flex-1",
-            closeButton:
-              'relative order-1 -mr-1 min-w-5 transform-none',
-          }
-        }}
-      />
-      <AuthProvider>
+    <SessionProvider>
+      <StoreProvider>
         {children}
-      </AuthProvider>
-    </>
-  );
+      </StoreProvider>
+    </SessionProvider>
+  )
 }

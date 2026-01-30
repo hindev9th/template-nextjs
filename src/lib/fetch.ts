@@ -1,6 +1,11 @@
 import { Method } from '@/types/request';
 import { Response } from '@/types/response';
 
+let refreshPromise: Promise<{
+  accessToken: string;
+  refreshToken: string;
+}> | null = null;
+
 const http = async <T>(
   url: string,
   method: Method = Method.GET,
@@ -21,6 +26,12 @@ const http = async <T>(
       `${process.env.NEXT_PUBLIC_APP_API_URL}${url}`,
       requestOptions
     );
+    const res = await response.json()
+    if (res.statusCode === 401) {
+      const newToken = await refreshAccessTokenOnce("access-token");
+    }
+
+
     return await response.json();
   } catch (error) {
     console.error(error);
@@ -32,10 +43,41 @@ const http = async <T>(
   }
 };
 
+async function refreshAccessTokenOnce(refreshToken: string) {
+  // Nếu đang refresh → đợi
+  if (refreshPromise) {
+    return refreshPromise
+  }
+
+  refreshPromise = (async () => {
+    try {
+      const res = await fetch("https://api.your-backend.com/refresh", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          refreshToken: refreshToken,
+        }),
+      })
+
+      const data = await res.json()
+
+      return {
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken ?? refreshToken,
+      }
+    } finally {
+      // reset lock
+      refreshPromise = null
+    }
+  })()
+
+  return refreshPromise
+}
+
 // Convenience methods
 http.get = <T>(
   url: string,
-  params: Record<any, any>,
+  params: string[][] | Record<string, string> | string | URLSearchParams = {},
   options?: RequestInit
 ) => {
   const paramsString = new URLSearchParams(params).toString();
@@ -44,7 +86,7 @@ http.get = <T>(
 
 http.post = <T>(
   url: string,
-  body?: Record<any, any>,
+  body?: Record<string, unknown>,
   options?: RequestInit
 ) => {
   return http<T>(url, Method.POST, {
@@ -55,7 +97,7 @@ http.post = <T>(
 
 http.patch = <T>(
   url: string,
-  body?: Record<any, any>,
+  body?: Record<string, unknown>,
   options?: RequestInit
 ) => {
   return http<T>(url, Method.PATCH, {
@@ -64,7 +106,7 @@ http.patch = <T>(
   });
 };
 
-http.put = <T>(url: string, body?: Record<any, any>, options?: RequestInit) => {
+http.put = <T>(url: string, body?: Record<string, unknown>, options?: RequestInit) => {
   return http<T>(url, Method.PUT, {
     body: JSON.stringify(body),
     ...options,
